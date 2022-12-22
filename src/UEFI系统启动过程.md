@@ -110,7 +110,7 @@ SEC（Security Phase）阶段是平台初始化的第一个阶段，计算机系
 
 进入 SEC 功能区后，首先利用 CAR 技术初始化栈，初始化 IDT，初始化 `EFI_SEC_PEI_HEAD_OFF`，将控制权转交给 PEI，并将 `EFI_SEC_PEI_HAND_OFF` 传递给 PEI。
 
-#### PEI 阶段
+### PEI 阶段
 
 PEI（Pre-EFI Initialization）阶段资源仍然十分有限，内存到了 PEI 后期才被初始化，其主要功能是为 DXE 准备执行环境，将需要传递到 DXE 的信息组成 HOB（Hand Off Block）列表，最终将控制权转交到 DXE 手中。
 
@@ -142,7 +142,7 @@ PPI 与 DEX 阶段的 Protocol 类似，每个 PPI 都是一个结构体，包�
 
 PEI 阶段执行流程完整描述：SEC 模块找到 PEI Image 的入口函数 _ModuleEntryPoint（该函数位于 `MdePkg/Library/PeimEntryPoint/PeimEntryPoint.c`），_ModuleEntryPoint 函数最终调用 PEI 模块的入口函数 PEICore（该函数位于 `MdeModulePkg/Core/Pei/PeiMain/PeiMain.c`），进入 PEICore 后，首先根据从 SEC 阶段出入的信息设置 PEI Core Services，然后调用 PEIDispatcher 执行系统总的 PEIM，在内存初始化完成后，系统切换栈并重新进入 PEICore。重新进入 PEICore 后使用的不再是 临时 RAM 而是真正的内存。在所有 PEIM 执行完成后，调用 PEIServices 的 LocatePPI 服务得到 DXE IPL PPI，并调用 DXE IPL PPI 的 Entry 服务（即 DEXLoadCore），找出 DEX Image 的入口函数，执行 DXE Image 函数并将 HOB 列表传递给 DXE。
 
-#### DXE 阶段
+### DXE 阶段
 
 DXE (Driver Execution Environment) 阶段执行大部分系统初始化工作，进入此阶段时，内存已经可以被完全使用，因此该阶段可以执行大量复杂工作。从程序设计角度 DXE 阶段和 PEI 阶段相似。
 
@@ -174,7 +174,7 @@ DXE 从功能上可分为以下两部分：
 
 当所有的 Driver 都执行完成后，系统完成初始化，DEX 通过 EFI_BDS_ARCH_PROTOCOL 找到 BDS 并调用 BDS 的入口函数，从而进入 BDS 阶段。本质上说，BDS 是一种特殊的 DXE 阶段的应用程序。
 
-#### BDS 阶段
+### BDS 阶段
 
 BDS（Boot Device Selection）的主要功能是执行启动策略。主要功能如下：
 
@@ -192,17 +192,17 @@ BDS 策略通过全局 NVRAM 变量配置，这些变量可以被运行时服务
 
 当用户选中某个启动项（或进入系统默认启动项）后，OS Loader 启动，系统进入 TSL 阶段。
 
-#### TSL 阶段
+### TSL 阶段
 
 TSL 阶段是 OS Loader 执行的第一阶段，这一阶段 OS Loader 作为一个 UEFI 应用程序运行，系统资源仍然由 UEFI 内核控制。当启动服务的 `ExitBootServices()` 服务被调用后，系统将进入 RT 阶段。
 
 TSL 阶段之所以称为临时系统，原因在于其存在的目的是为 OS Loader 准备执行环境。虽然是临时系统，但已经具备操作系统的雏形，UEFI Shell 是这个临时系统的人机交互界面。正常运行中，系统不会进入 UEFI Shell，而是直接执行 OS Loader，只有在用户干预或是操作系统加载器出现严重问题时才会进入 UEFI Shell。
 
-#### RT 阶段
+### RT 阶段
 
 系统进入 RT 阶段后，系统控制权从 UEFI 内核转交至 OS Loader，UEFI 占用的各种资源被回收至 OS Loader。随着 OS Loader 的继续执行，操作系统完全取得对系统的控制。
 
-#### AL 阶段
+### AL 阶段
 
 在 RT 阶段如果系统（硬件或是软件）遇到灾难性错误，系统固件需要提供错误处理以及灾难恢复机制，这种机制运行在 AL（After Life）阶段。UEFI 和 UEFI PI 均未对 AL 阶段的行为和规范进行定义。
 
