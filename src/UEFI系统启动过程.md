@@ -1,3 +1,20 @@
+---
+title: "UEFI 系统启动过程"
+#subtitle: "UEFI 规范 - 中文"
+lot: false
+lof: true
+CJKmainfont: Source Han Serif TC
+mainfont: Ubuntu
+monofont: Ubuntu
+header-right: UEFI
+department: UEFI
+history:
+  - version: V0.1
+    author: Georgy
+    date: 2022 年 12 年 22 日
+    desc: 创建文档
+---
+
 # UEFI 系统启动
 
 ## UEFI 系统组成
