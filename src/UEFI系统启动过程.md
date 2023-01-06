@@ -13,6 +13,10 @@ history:
     author: Georgy
     date: 2022 年 12 年 22 日
     desc: 创建文档
+  - version: V0.2
+    author: Georgy
+    date: 2023 年 1 年 6 日
+    desc: 添加 PEI、DXE、BDS 阶段的主要函数代码。
 ---
 
 # UEFI 系统启动
@@ -718,3 +722,5 @@ TSL 阶段之所以称为临时系统，原因在于其存在的目的是为 OS 
 <https://www.eet-china.com/mp/a54075.html>
 
 <https://www.codenong.com/cs106097735/>
+
+<https://github.com/tianocore/tianocore.github.io/wiki/UEFI-EDKII-Learning-Dev>
